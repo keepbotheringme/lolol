@@ -4,11 +4,11 @@ local UILibrary = {}
 
 -- Define Colors and Constants
 local COLORS = {
-    PrimaryBackground = Color3.fromRGB(34, 34, 34), -- Main Frame background
-    SecondaryBackground = Color3.fromRGB(29, 29, 29), -- Tabs/Header background
-    TertiaryBackground = Color3.fromRGB(24, 24, 24), -- Notification background
-    Text = Color3.fromRGB(255, 255, 255),
-    Accent = Color3.fromRGB(0, 120, 255) -- Used for active tab
+	PrimaryBackground = Color3.fromRGB(34, 34, 34), -- Main Frame background
+	SecondaryBackground = Color3.fromRGB(29, 29, 29), -- Tabs/Header background
+	TertiaryBackground = Color3.fromRGB(24, 24, 24), -- Notification background
+	Text = Color3.fromRGB(255, 255, 255),
+	Accent = Color3.fromRGB(0, 120, 255) -- Used for active tab
 }
 
 local FONT = Font.new("rbxasset://fonts/families/RobotoMono.json", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal)
@@ -21,149 +21,149 @@ local Elements = {}
 
 -- Utility Functions
 local function Create(className: string, properties: {[string]: any}): Instance
-    local instance = Instance.new(className)
-    for prop, value in properties do
-        instance[prop] = value
-    end
-    return instance
+	local instance = Instance.new(className)
+	for prop, value in properties do
+		instance[prop] = value
+	end
+	return instance
 end
 
 --- Core UI Setup ---
 function UILibrary:Initialize()
-    -- 1. Setup ScreenGui
-    local ScreenGui = Create("ScreenGui", {
-        Name = "SimpleUI",
-        ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
-        Parent = game:GetService("PlayerGui") or game:GetService("StarterGui")
-    })
-    Elements.ScreenGui = ScreenGui
+	-- 1. Setup ScreenGui
+	local ScreenGui = Create("ScreenGui", {
+		Name = "SimpleUI",
+		ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+		Parent = game:GetService('Players').LocalPlayer.PlayerGui
+	})
+	Elements.ScreenGui = ScreenGui
 
-    -- 2. Main Frame (Window)
-    local Frame = Create("Frame", {
-        Name = "MainWindow",
-        Position = UDim2.new(0.355, 0, 0.180, 0),
-        Size = UDim2.new(0, 504, 0, 348),
-        BorderSizePixel = 0,
-        BackgroundColor3 = COLORS.PrimaryBackground,
-        Parent = ScreenGui,
-    })
-    Elements.MainWindow = Frame
+	-- 2. Main Frame (Window)
+	local Frame = Create("Frame", {
+		Name = "MainWindow",
+		Position = UDim2.new(0.355, 0, 0.180, 0),
+		Size = UDim2.new(0, 504, 0, 348),
+		BorderSizePixel = 0,
+		BackgroundColor3 = COLORS.PrimaryBackground,
+		Parent = ScreenGui,
+	})
+	Elements.MainWindow = Frame
 
-    -- 3. Header Frame (Top bar)
-    local header = Create("Frame", {
-        Name = "Header",
-        Size = UDim2.new(1, 0, 0, 30), -- Use 1 for relative width
-        BorderSizePixel = 0,
-        BackgroundColor3 = COLORS.SecondaryBackground,
-        Parent = Frame
-    })
-    Elements.Header = header
+	-- 3. Header Frame (Top bar)
+	local header = Create("Frame", {
+		Name = "Header",
+		Size = UDim2.new(1, 0, 0, 30), -- Use 1 for relative width
+		BorderSizePixel = 0,
+		BackgroundColor3 = COLORS.SecondaryBackground,
+		Parent = Frame
+	})
+	Elements.Header = header
 
-    -- 4. Logo (Placeholder image)
-    Create("ImageLabel", {
-        Name = "Logo",
-        Image = "rbxassetid://90362415610289", -- Replace with your actual asset ID
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, 30, 1, 0), -- Adjusted size
-        Position = UDim2.new(0, 5, 0, 0), -- Slight offset
-        Parent = header
-    })
+	-- 4. Logo (Placeholder image)
+	Create("ImageLabel", {
+		Name = "Logo",
+		Image = "rbxassetid://90362415610289", -- Replace with your actual asset ID
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 30, 1, 0), -- Adjusted size
+		Position = UDim2.new(0, 5, 0, 0), -- Slight offset
+		Parent = header
+	})
 
-    -- 5. Title
-    Create("TextLabel", {
-        Name = "Title",
-        Text = GUI_TITLE,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        FontFace = FONT,
-        TextColor3 = COLORS.Text,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, 200, 1, 0),
-        Position = UDim2.new(0, 40, 0, 0), -- Positioned next to the logo
-        TextSize = 14,
-        Parent = header
-    })
+	-- 5. Title
+	Create("TextLabel", {
+		Name = "Title",
+		Text = GUI_TITLE,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		FontFace = FONT,
+		TextColor3 = COLORS.Text,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 200, 1, 0),
+		Position = UDim2.new(0, 40, 0, 0), -- Positioned next to the logo
+		TextSize = 14,
+		Parent = header
+	})
 
-    -- 6. Version and Clock (Right Aligned)
-    local clockLabel = Create("TextLabel", {
-        Name = "Clock",
-        Text = DEFAULT_VERSION .. " | 00:00:00",
-        TextXAlignment = Enum.TextXAlignment.Right,
-        FontFace = FONT,
-        TextColor3 = COLORS.Text,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, 200, 1, 0),
-        Position = UDim2.new(1, -205, 0, 0), -- Right-aligned with padding
-        TextSize = 14,
-        Parent = header
-    })
-    Elements.ClockLabel = clockLabel
-    
-    -- Update the clock every second
-    game:GetService("RunService").Heartbeat:Connect(function()
-        local currentTime = os.date("%H:%M:%S")
-        clockLabel.Text = DEFAULT_VERSION .. " | " .. currentTime
-    end)
+	-- 6. Version and Clock (Right Aligned)
+	local clockLabel = Create("TextLabel", {
+		Name = "Clock",
+		Text = DEFAULT_VERSION .. " | 00:00:00",
+		TextXAlignment = Enum.TextXAlignment.Right,
+		FontFace = FONT,
+		TextColor3 = COLORS.Text,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 200, 1, 0),
+		Position = UDim2.new(1, -205, 0, 0), -- Right-aligned with padding
+		TextSize = 14,
+		Parent = header
+	})
+	Elements.ClockLabel = clockLabel
 
-    -- 7. Tabs Container (Left sidebar)
-    local Tabs = Create("Frame", {
-        Name = "TabsContainer",
-        Position = UDim2.new(0, 0, 0, 30), -- Below the header
-        Size = UDim2.new(0, 100, 1, -30), -- Full height minus header height
-        BorderSizePixel = 0,
-        BackgroundColor3 = COLORS.SecondaryBackground,
-        Parent = Frame
-    })
-    Elements.TabsContainer = Tabs
+	-- Update the clock every second
+	game:GetService("RunService").Heartbeat:Connect(function()
+		local currentTime = os.date("%H:%M:%S")
+		clockLabel.Text = DEFAULT_VERSION .. " | " .. currentTime
+	end)
 
-    -- 8. Tabs Layout
-    Create("UIListLayout", {
-        SortOrder = Enum.SortOrder.LayoutOrder,
-        Padding = UDim.new(0, 2),
-        Parent = Tabs
-    })
+	-- 7. Tabs Container (Left sidebar)
+	local Tabs = Create("Frame", {
+		Name = "TabsContainer",
+		Position = UDim2.new(0, 0, 0, 30), -- Below the header
+		Size = UDim2.new(0, 100, 1, -30), -- Full height minus header height
+		BorderSizePixel = 0,
+		BackgroundColor3 = COLORS.SecondaryBackground,
+		Parent = Frame
+	})
+	Elements.TabsContainer = Tabs
 
-    -- 9. Tab Content Holder
-    local tabHolderFrame = Create("Frame", {
-        Name = "TabContentHolder",
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0, 100, 0, 30), -- Right of TabsContainer, below Header
-        Size = UDim2.new(1, -100, 1, -30), -- Remaining space
-        BorderSizePixel = 0,
-        Parent = Frame
-    })
-    Elements.TabContentHolder = tabHolderFrame
+	-- 8. Tabs Layout
+	Create("UIListLayout", {
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		Padding = UDim.new(0, 2),
+		Parent = Tabs
+	})
 
-    -- Make the main window draggable (Optional, but useful)
-    local drag
-    local function onMouseMoved(input)
-        if drag then
-            Frame.Position = UDim2.new(
-                Frame.Position.X.Scale, Frame.Position.X.Offset + input.Delta.X,
-                Frame.Position.Y.Scale, Frame.Position.Y.Offset + input.Delta.Y
-            )
-        end
-    end
-    
-    local function onInputBegan(input, gameProcessed)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and not gameProcessed then
-            local mouse = game:GetService("UserInputService")
-            if mouse:GetMouseLocation().Y < Frame.AbsolutePosition.Y + header.AbsoluteSize.Y then
-                drag = true
-            end
-        end
-    end
+	-- 9. Tab Content Holder
+	local tabHolderFrame = Create("Frame", {
+		Name = "TabContentHolder",
+		BackgroundTransparency = 1,
+		Position = UDim2.new(0, 100, 0, 30), -- Right of TabsContainer, below Header
+		Size = UDim2.new(1, -100, 1, -30), -- Remaining space
+		BorderSizePixel = 0,
+		Parent = Frame
+	})
+	Elements.TabContentHolder = tabHolderFrame
 
-    local function onInputEnded()
-        drag = false
-    end
-    
-    local UIS = game:GetService("UserInputService")
-    UIS.InputBegan:Connect(onInputBegan)
-    UIS.InputEnded:Connect(onInputEnded)
-    UIS.InputChanged:Connect(function(input) onMouseMoved(input) end)
-    
-    -- Initialize the notification system
-    UILibrary:InitNotifications()
+	-- Make the main window draggable (Optional, but useful)
+	local drag
+	local function onMouseMoved(input)
+		if drag then
+			Frame.Position = UDim2.new(
+				Frame.Position.X.Scale, Frame.Position.X.Offset + input.Delta.X,
+				Frame.Position.Y.Scale, Frame.Position.Y.Offset + input.Delta.Y
+			)
+		end
+	end
+
+	local function onInputBegan(input, gameProcessed)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch and not gameProcessed then
+			local mouse = game:GetService("UserInputService")
+			if mouse:GetMouseLocation().Y < Frame.AbsolutePosition.Y + header.AbsoluteSize.Y then
+				drag = true
+			end
+		end
+	end
+
+	local function onInputEnded()
+		drag = false
+	end
+
+	local UIS = game:GetService("UserInputService")
+	UIS.InputBegan:Connect(onInputBegan)
+	UIS.InputEnded:Connect(onInputEnded)
+	UIS.InputChanged:Connect(function(input) onMouseMoved(input) end)
+
+	-- Initialize the notification system
+	UILibrary:InitNotifications()
 end
 
 --- Tab Management ---
@@ -171,147 +171,147 @@ Elements.Tabs = {}
 Elements.ActiveTab = nil
 
 function UILibrary:CreateTab(name: string): Frame
-    -- Tab Button Frame
-    local TabButton = Create("Frame", {
-        Name = name .. "TabButton",
-        Size = UDim2.new(1, 0, 0, 30),
-        BorderSizePixel = 0,
-        BackgroundColor3 = COLORS.SecondaryBackground,
-        Parent = Elements.TabsContainer,
-    })
-    
-    -- Tab Name Label
-    local TabTitle = Create("TextLabel", {
-        Name = "TabTitle",
-        Text = name,
-        FontFace = FONT,
-        TextColor3 = COLORS.Text,
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        TextSize = 14,
-        Parent = TabButton
-    })
-    
-    -- Tab Content Frame
-    local TabContent = Create("Frame", {
-        Name = name .. "TabContent",
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Position = UDim2.new(0, 0, 0, 0),
-        Visible = false, -- Start hidden
-        Parent = Elements.TabContentHolder
-    })
-    
-    -- Save the tab
-    Elements.Tabs[name] = {Button = TabButton, Content = TabContent}
-    
-    -- Tab Switching Logic
-    local function switchTab()
-        -- Hide the current active tab content
-        if Elements.ActiveTab then
-            Elements.ActiveTab.Content.Visible = false
-            Elements.ActiveTab.Button.BackgroundColor3 = COLORS.SecondaryBackground
-        end
-        
-        -- Show the new tab content and update button color
-        TabContent.Visible = true
-        TabButton.BackgroundColor3 = COLORS.Accent
-        Elements.ActiveTab = Elements.Tabs[name]
-    end
-    
-    -- Initial selection (make the first tab created active)
-    if not Elements.ActiveTab then
-        switchTab()
-    end
+	-- Tab Button Frame
+	local TabButton = Create("Frame", {
+		Name = name .. "TabButton",
+		Size = UDim2.new(1, 0, 0, 30),
+		BorderSizePixel = 0,
+		BackgroundColor3 = COLORS.SecondaryBackground,
+		Parent = Elements.TabsContainer,
+	})
 
-    -- Input Handling
-    Create("TextButton", {
-        Text = "",
-        BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 1, 0),
-        Parent = TabButton
-    }).Activated:Connect(switchTab)
+	-- Tab Name Label
+	local TabTitle = Create("TextLabel", {
+		Name = "TabTitle",
+		Text = name,
+		FontFace = FONT,
+		TextColor3 = COLORS.Text,
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 1, 0),
+		TextSize = 14,
+		Parent = TabButton
+	})
 
-    return TabContent
+	-- Tab Content Frame
+	local TabContent = Create("Frame", {
+		Name = name .. "TabContent",
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 1, 0),
+		Position = UDim2.new(0, 0, 0, 0),
+		Visible = false, -- Start hidden
+		Parent = Elements.TabContentHolder
+	})
+
+	-- Save the tab
+	Elements.Tabs[name] = {Button = TabButton, Content = TabContent}
+
+	-- Tab Switching Logic
+	local function switchTab()
+		-- Hide the current active tab content
+		if Elements.ActiveTab then
+			Elements.ActiveTab.Content.Visible = false
+			Elements.ActiveTab.Button.BackgroundColor3 = COLORS.SecondaryBackground
+		end
+
+		-- Show the new tab content and update button color
+		TabContent.Visible = true
+		TabButton.BackgroundColor3 = COLORS.Accent
+		Elements.ActiveTab = Elements.Tabs[name]
+	end
+
+	-- Initial selection (make the first tab created active)
+	if not Elements.ActiveTab then
+		switchTab()
+	end
+
+	-- Input Handling
+	Create("TextButton", {
+		Text = "",
+		BackgroundTransparency = 1,
+		Size = UDim2.new(1, 0, 1, 0),
+		Parent = TabButton
+	}).Activated:Connect(switchTab)
+
+	return TabContent
 end
 
 --- Notification System ---
 
 function UILibrary:InitNotifications()
-    -- Notification Container (Top Right of Screen)
-    local NotificationContainer = Create("Frame", {
-        Name = "NotificationContainer",
-        BackgroundTransparency = 1,
-        Size = UDim2.new(0, 300, 1, 0), -- Max 300 width
-        Position = UDim2.new(1, -305, 0, 5), -- Padded right-aligned
-        AnchorPoint = Vector2.new(1, 0),
-        Parent = Elements.ScreenGui
-    })
-    
-    Create("UIListLayout", {
-        SortOrder = Enum.SortOrder.LayoutOrder,
-        HorizontalAlignment = Enum.HorizontalAlignment.Right, -- Notifications stack to the top right
-        Padding = UDim.new(0, 5),
-        Parent = NotificationContainer
-    })
-    Elements.NotificationContainer = NotificationContainer
+	-- Notification Container (Top Right of Screen)
+	local NotificationContainer = Create("Frame", {
+		Name = "NotificationContainer",
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 300, 1, 0), -- Max 300 width
+		Position = UDim2.new(1, -305, 0, 5), -- Padded right-aligned
+		AnchorPoint = Vector2.new(1, 0),
+		Parent = Elements.ScreenGui
+	})
+
+	Create("UIListLayout", {
+		SortOrder = Enum.SortOrder.LayoutOrder,
+		HorizontalAlignment = Enum.HorizontalAlignment.Right, -- Notifications stack to the top right
+		Padding = UDim.new(0, 5),
+		Parent = NotificationContainer
+	})
+	Elements.NotificationContainer = NotificationContainer
 end
 
 function UILibrary:Notify(text: string, duration: number)
-    duration = duration or 3 -- Default duration is 3 seconds
+	duration = duration or 3 -- Default duration is 3 seconds
 
-    -- Notification Frame (AutomaticSize.Y to fit text)
-    local notificationFrame = Create("Frame", {
-        Name = "Notification",
-        Size = UDim2.new(0, 250, 0, 30),
-        BorderSizePixel = 0,
-        BackgroundColor3 = COLORS.TertiaryBackground,
-        AutomaticSize = Enum.AutomaticSize.Y,
-        Parent = Elements.NotificationContainer
-    })
+	-- Notification Frame (AutomaticSize.Y to fit text)
+	local notificationFrame = Create("Frame", {
+		Name = "Notification",
+		Size = UDim2.new(0, 250, 0, 30),
+		BorderSizePixel = 0,
+		BackgroundColor3 = COLORS.TertiaryBackground,
+		AutomaticSize = Enum.AutomaticSize.Y,
+		Parent = Elements.NotificationContainer
+	})
 
-    -- Text Label
-    local TextLabel = Create("TextLabel", {
-        Text = text,
-        FontFace = REGULAR_FONT,
-        TextColor3 = COLORS.Text,
-        BackgroundTransparency = 1,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        TextYAlignment = Enum.TextYAlignment.Center,
-        TextWrapped = true,
-        TextSize = 14,
-        Size = UDim2.new(1, -10, 1, -10),
-        Position = UDim2.new(0, 5, 0, 5),
-        Parent = notificationFrame
-    })
-    
-    -- Animate it in and out
-    notificationFrame.Position = UDim2.new(0, 300, 0, 0) -- Start off-screen right
-    
-    -- Fade in
-    notificationFrame:TweenPosition(
-        UDim2.new(0, 0, 0, 0),
-        Enum.EasingDirection.Out,
-        Enum.EasingStyle.Quad,
-        0.5,
-        true
-    )
+	-- Text Label
+	local TextLabel = Create("TextLabel", {
+		Text = text,
+		FontFace = REGULAR_FONT,
+		TextColor3 = COLORS.Text,
+		BackgroundTransparency = 1,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		TextYAlignment = Enum.TextYAlignment.Center,
+		TextWrapped = true,
+		TextSize = 14,
+		Size = UDim2.new(1, -10, 1, -10),
+		Position = UDim2.new(0, 5, 0, 5),
+		Parent = notificationFrame
+	})
 
-    -- Wait, then fade out and destroy
-    task.delay(duration, function()
-        notificationFrame:TweenPosition(
-            UDim2.new(0, 300, 0, 0),
-            Enum.EasingDirection.In,
-            Enum.EasingStyle.Quad,
-            0.5,
-            true,
-            function(state)
-                if state == Enum.TweenStatus.Completed then
-                    notificationFrame:Destroy()
-                end
-            end
-        )
-    end)
+	-- Animate it in and out
+	notificationFrame.Position = UDim2.new(0, 300, 0, 0) -- Start off-screen right
+
+	-- Fade in
+	notificationFrame:TweenPosition(
+		UDim2.new(0, 0, 0, 0),
+		Enum.EasingDirection.Out,
+		Enum.EasingStyle.Quad,
+		0.5,
+		true
+	)
+
+	-- Wait, then fade out and destroy
+	task.delay(duration, function()
+		notificationFrame:TweenPosition(
+			UDim2.new(0, 300, 0, 0),
+			Enum.EasingDirection.In,
+			Enum.EasingStyle.Quad,
+			0.5,
+			true,
+			function(state)
+				if state == Enum.TweenStatus.Completed then
+					notificationFrame:Destroy()
+				end
+			end
+		)
+	end)
 end
 
 return UILibrary
